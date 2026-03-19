@@ -43,9 +43,14 @@ export function Navbar() {
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
-          className="text-lg font-semibold tracking-tight text-black hover:opacity-80"
+          className="flex items-center gap-2 text-black hover:opacity-80"
         >
-          Vbay.pk
+          <img
+            src="/images/brand/logo_vbay.jpg"
+            alt="Vbay.pk"
+            className="h-8 w-auto"
+          />
+          <span className="text-lg font-semibold tracking-tight">Vbay.pk</span>
         </Link>
 
         {/* Intentionally hidden: search products UI and cart icon */}
