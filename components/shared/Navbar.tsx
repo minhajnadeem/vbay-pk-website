@@ -1,33 +1,45 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Search, ShoppingCart, X } from "lucide-react";
-import { useCart } from "@/store/useCart";
-import { useSearch } from "@/store/useSearch";
+import { CONTACT_INFO, SOCIAL_LINKS, getEmailMailtoHref, getPhoneTelHref } from "@/constants/siteInfo";
 
 export function Navbar() {
-  const items = useCart((state) => state.items);
-  const openCart = useCart((state) => state.openCart);
-  const { query, setQuery, clearQuery } = useSearch();
-  const [mounted, setMounted] = useState(false);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mobileSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [mobileSearchOpen]);
-
-  const count = items.reduce((sum, i) => sum + i.quantity, 0);
-
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white">
+      <div className="hidden border-b border-black/10 sm:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-xs text-muted sm:px-6">
+          <div className="flex items-center gap-3">
+            <a
+              href={getPhoneTelHref(CONTACT_INFO.phone)}
+              className="font-medium text-foreground hover:underline"
+            >
+              {CONTACT_INFO.phone}
+            </a>
+            <span className="text-muted">|</span>
+            <a
+              href={getEmailMailtoHref(CONTACT_INFO.email)}
+              className="font-medium text-foreground hover:underline"
+            >
+              {CONTACT_INFO.email}
+            </a>
+          </div>
+
+          <div className="flex items-center gap-1">
+            {SOCIAL_LINKS.map(({ href, icon: Icon, iconLabel }) => (
+              <a
+                key={iconLabel}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full p-2 text-foreground transition hover:bg-black/5"
+                aria-label={iconLabel}
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
@@ -36,76 +48,9 @@ export function Navbar() {
           Vbay.pk
         </Link>
 
-        {/* Desktop search — visible from md up */}
-        <div className="hidden flex-1 max-w-md mx-4 md:block">
-          <label htmlFor="navbar-search" className="sr-only">
-            Search products
-          </label>
-          <input
-            id="navbar-search"
-            ref={searchInputRef}
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search products…"
-            className="w-full rounded-full border border-black/15 bg-black/5 py-2 px-4 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-            aria-label="Search products"
-          />
-        </div>
-
-        <div className="flex items-center gap-3 sm:gap-5">
-          {/* Mobile search icon — toggles expand */}
-          <button
-            type="button"
-            className="rounded-full p-2 text-foreground transition hover:bg-black/5 md:hidden"
-            aria-label={mobileSearchOpen ? "Close search" : "Search"}
-            onClick={() => {
-              setMobileSearchOpen((open) => !open);
-              if (mobileSearchOpen) clearQuery();
-            }}
-          >
-            {mobileSearchOpen ? (
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
-            ) : (
-              <Search className="h-5 w-5 sm:h-6 sm:w-6" />
-            )}
-          </button>
-          <button
-            type="button"
-            onClick={openCart}
-            className="relative rounded-full p-2 text-foreground transition hover:bg-black/5"
-            aria-label={`Cart, ${count} items`}
-          >
-            <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
-            {mounted && count > 0 && (
-              <span
-                className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
-                aria-hidden
-              >
-                {count}
-              </span>
-            )}
-          </button>
-        </div>
+        {/* Intentionally hidden: search products UI and cart icon */}
+        <div className="flex items-center gap-3 sm:gap-5" aria-hidden />
       </nav>
-
-      {/* Mobile expanded search bar */}
-      {mobileSearchOpen && (
-        <div className="border-t border-black/10 px-4 py-3 md:hidden">
-          <label htmlFor="navbar-search-mobile" className="sr-only">
-            Search products
-          </label>
-          <input
-            id="navbar-search-mobile"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search products…"
-            className="w-full rounded-lg border border-black/15 bg-black/5 py-2.5 px-4 text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-            aria-label="Search products"
-          />
-        </div>
-      )}
     </header>
   );
 }

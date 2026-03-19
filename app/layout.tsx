@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { PromoBanner } from "@/components/shared/PromoBanner";
 import { Navbar } from "@/components/shared/Navbar";
 import { CategoryBar } from "@/components/shared/CategoryBar";
-import { Footer } from "@/components/shared/Footer";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 import "./globals.css";
 
@@ -20,6 +19,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vbay.pk | Premium E-commerce Catalog",
   description: "Premium, minimalist e-commerce catalog for the Pakistani market.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
+  },
 };
 
 export default function RootLayout({
@@ -36,7 +44,6 @@ export default function RootLayout({
         <Navbar />
         <CategoryBar />
         <main className="flex-1">{children}</main>
-        <Footer />
         <ClientProviders />
       </body>
     </html>
