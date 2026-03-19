@@ -5,6 +5,7 @@ import { Navbar } from "@/components/shared/Navbar";
 import { CategoryBar } from "@/components/shared/CategoryBar";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({
         <CategoryBar />
         <main className="flex-1">{children}</main>
         <ClientProviders />
+        <Analytics />
       </body>
     </html>
   );
