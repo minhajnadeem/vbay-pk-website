@@ -18,7 +18,7 @@ async function getPosts(): Promise<Post[]> {
 
   return files
     .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
+    .sort((b, a) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
     .map((file) => ({
       src: `/images/posts/${file}`,
       alt: `Vbay post ${path.parse(file).name}`,
