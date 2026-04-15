@@ -1,36 +1,20 @@
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-import { PostsGrid } from "@/components/shared/PostsGrid";
+import { PostLinkGrid } from "@/components/shared/PostLinkGrid";
+import { getPostProducts } from "@/lib/postProducts";
 
-type Post = {
-  src: string;
-  alt: string;
-};
-
-// Force dynamic rendering so newly added images in `public/images/posts`
-// appear after a refresh without needing a rebuild.
 export const dynamic = "force-dynamic";
 
-async function getPosts(): Promise<Post[]> {
-  const postsDirectory = path.join(process.cwd(), "public", "images", "posts");
-
-  const files = await readdir(postsDirectory);
-
-  return files
-    .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
-    .sort((b, a) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
-    .map((file) => ({
-      src: `/images/posts/${file}`,
-      alt: `Vbay post ${path.parse(file).name}`,
-    }));
-}
-
 export default async function Home() {
-  const posts = await getPosts();
+  const products = await getPostProducts();
+
+  const items = products.map((p) => ({
+    href: `/product/${p.id}`,
+    src: p.imageUrl,
+    alt: "Vbay post",
+  }));
 
   return (
     <section className="mx-auto w-full max-w-md px-3 py-4 sm:max-w-2xl sm:px-4 sm:py-6 lg:max-w-6xl lg:px-8">
-      {posts.length === 0 ? (
+      {items.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-neutral-300 p-8 text-center sm:p-10">
           <p className="text-lg font-medium">No posts found yet.</p>
           <p className="mt-2 text-sm text-muted">
@@ -38,7 +22,7 @@ export default async function Home() {
           </p>
         </div>
       ) : (
-        <PostsGrid posts={posts} />
+        <PostLinkGrid items={items} />
       )}
     </section>
   );

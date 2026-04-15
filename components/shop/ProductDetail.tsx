@@ -2,36 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Package, RefreshCw, Zap, ShoppingCart, MessageCircle, ChevronRight } from "lucide-react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { MessageCircle, ChevronRight } from "lucide-react";
 import type { Product } from "@/constants/mockData";
-import { useCart } from "@/store/useCart";
+import { ImageLightbox } from "@/components/shared/ImageLightbox";
+import { VBAY_PDP_COPY, getProductPageUrl } from "@/constants/siteInfo";
+import { buildWhatsAppUrl, productInquiryMessage } from "@/lib/whatsapp";
 
-const WHATSAPP_NUMBER = "923001234567"; // placeholder
 const formatPrice = (price: number) => `Rs. ${price.toLocaleString("en-PK")}`;
 
-function WhatsAppLink({ product }: { product: Product }) {
-  const message = encodeURIComponent(
-    `Hi Vbay! I'd like to order:\n- 1x ${product.name} (${formatPrice(product.salePrice)})\nTotal: ${formatPrice(product.salePrice)}\nMy Details: [Name], [City]`
-  );
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+function Breadcrumbs() {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-whatsapp py-3.5 font-semibold text-white transition hover:opacity-90"
-    >
-      <MessageCircle className="h-5 w-5" />
-      Order via WhatsApp
-    </a>
-  );
-}
-
-function Breadcrumbs({ productName }: { productName: string }) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-sm">
-      <ol className="flex flex-wrap items-center gap-1.5 text-muted">
+    <nav aria-label="Breadcrumb" className="text-sm text-muted">
+      <ol className="flex flex-wrap items-center gap-1.5">
         <li>
           <Link href="/" className="hover:text-foreground hover:underline">
             Home
@@ -40,143 +23,215 @@ function Breadcrumbs({ productName }: { productName: string }) {
         <li className="flex items-center gap-1.5" aria-hidden>
           <ChevronRight className="h-4 w-4 shrink-0" />
         </li>
-        <li>
-          <Link href="/" className="hover:text-foreground hover:underline">
-            General
-          </Link>
-        </li>
-        <li className="flex items-center gap-1.5" aria-hidden>
-          <ChevronRight className="h-4 w-4 shrink-0" />
-        </li>
-        <li className="text-foreground font-medium truncate max-w-[12rem] sm:max-w-none" aria-current="page">
-          {productName}
+        <li className="font-medium text-foreground" aria-current="page">
+          Details
         </li>
       </ol>
     </nav>
   );
 }
 
+function PriceBlock({
+  product,
+  percentOff,
+}: {
+  product: Product;
+  percentOff: number;
+}) {
+  if (product.salePrice <= 0) {
+    return (
+      <p className="mt-6 text-base font-medium text-muted">
+        Price available on WhatsApp.
+      </p>
+    );
+  }
+
+  if (product.onSale && product.basePrice > product.salePrice) {
+    return (
+      <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          {formatPrice(product.salePrice)}
+        </span>
+        <span className="text-lg text-muted line-through">
+          {formatPrice(product.basePrice)}
+        </span>
+        {percentOff > 0 && (
+          <span className="rounded-md bg-accent/10 px-2 py-0.5 text-sm font-medium text-accent">
+            Save {percentOff}%
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <p className="mt-6 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      {formatPrice(product.salePrice)}
+    </p>
+  );
+}
+
+function AboutVbayContent() {
+  return (
+    <div className="space-y-4 text-sm leading-relaxed text-muted sm:text-[15px]">
+      <h2 className="text-base font-semibold text-foreground">
+        {VBAY_PDP_COPY.aboutHeading}
+      </h2>
+      <p>{VBAY_PDP_COPY.aboutLead}</p>
+      <ul className="list-disc space-y-2 pl-5">
+        {VBAY_PDP_COPY.aboutBullets.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function WhatsAppCta({
+  href,
+  className,
+}: {
+  href: string;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={
+        className ??
+        "flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp py-3.5 text-base font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+      }
+    >
+      <MessageCircle className="h-5 w-5 shrink-0" aria-hidden />
+      Message us on WhatsApp
+    </a>
+  );
+}
+
 export function ProductDetail({ product }: { product: Product }) {
-  const addItem = useCart((state) => state.addItem);
-  const openCart = useCart((state) => state.openCart);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [productPageUrl, setProductPageUrl] = useState(() =>
+    getProductPageUrl(product.id)
+  );
+
+  useEffect(() => {
+    const fromEnv = getProductPageUrl(product.id);
+    if (fromEnv) {
+      setProductPageUrl(fromEnv);
+      return;
+    }
+    setProductPageUrl(`${window.location.origin}/product/${product.id}`);
+  }, [product.id]);
 
   const percentOff =
     product.onSale && product.basePrice > 0
-      ? Math.round(((product.basePrice - product.salePrice) / product.basePrice) * 100)
+      ? Math.round(
+          ((product.basePrice - product.salePrice) / product.basePrice) * 100
+        )
       : 0;
 
-  const handleAddToCart = () => {
-    addItem(product);
-    openCart();
-    toast.success("Added to cart");
-  };
+  const priceLine =
+    product.salePrice > 0
+      ? product.onSale && product.basePrice > product.salePrice
+        ? `${formatPrice(product.salePrice)} (was ${formatPrice(product.basePrice)})`
+        : formatPrice(product.salePrice)
+      : undefined;
+
+  const whatsappHref = buildWhatsAppUrl(
+    productInquiryMessage(null, priceLine, productPageUrl || null)
+  );
+
+  const imageAlt = "Product photo";
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 pb-32 sm:px-6 md:pb-8">
-        <div className="grid gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
-          {/* Large image — left on desktop, top on mobile */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-black/5">
+      <article className="mx-auto max-w-6xl px-4 pb-28 pt-2 sm:px-6 md:pb-14 md:pt-6">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 lg:items-start xl:gap-16">
+          {/* Media — Shopify-like neutral stage, single image */}
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="relative aspect-square w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#f4f4f4] text-left lg:sticky lg:top-24 lg:aspect-[4/5] lg:max-h-[min(88vh,760px)] focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            aria-label="View full screen image"
+          >
             <Image
               src={product.imageUrl}
-              alt={product.name}
+              alt={imageAlt}
               fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-contain p-6 sm:p-10 pointer-events-none"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               priority
               unoptimized
             />
-            {product.onSale && (
-              <span className="absolute left-3 top-3 rounded bg-accent px-2.5 py-1 text-sm font-semibold text-white">
-                Sale · {percentOff}% off
+            {product.onSale && percentOff > 0 && (
+              <span className="pointer-events-none absolute left-3 top-3 rounded-md bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                Sale
               </span>
             )}
-          </div>
+          </button>
 
-          <div className="flex flex-col">
-            <Breadcrumbs productName={product.name} />
+          {/* Buy box */}
+          <div className="flex flex-col lg:max-w-xl lg:justify-start lg:py-1">
+            <Breadcrumbs />
 
-            {/* High-quality typography for product title */}
-            <h1 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl lg:leading-tight">
-              {product.name}
-            </h1>
+            <p className="mt-4 text-base text-muted">{VBAY_PDP_COPY.tagline}</p>
 
-            {/* Prominent sale price block */}
-            <div className="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-4 sm:p-5">
-              {product.onSale ? (
-                <>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-                    Sale price
-                  </span>
-                  <div className="mt-1 flex flex-wrap items-baseline gap-3">
-                    <span className="text-2xl font-bold text-accent sm:text-3xl">
-                      {formatPrice(product.salePrice)}
-                    </span>
-                    {product.basePrice > product.salePrice && (
-                      <>
-                        <span className="text-base text-muted line-through">
-                          {formatPrice(product.basePrice)}
-                        </span>
-                        <span className="rounded bg-accent/20 px-2 py-0.5 text-sm font-semibold text-accent">
-                          {percentOff}% off
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <span className="text-2xl font-bold text-foreground sm:text-3xl">
-                  {formatPrice(product.salePrice)}
-                </span>
-              )}
-            </div>
+            <PriceBlock product={product} percentOff={percentOff} />
 
-            {product.description && (
-              <p className="mt-6 text-muted leading-relaxed">{product.description}</p>
-            )}
-
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-4">
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-foreground bg-foreground py-3.5 font-semibold text-background transition hover:opacity-90"
+            <div className="mt-8 hidden flex-col gap-3 md:flex">
+              <WhatsAppCta href={whatsappHref} />
+              <Link
+                href="/"
+                className="text-center text-sm font-medium text-muted underline-offset-4 hover:text-foreground hover:underline"
               >
-                <ShoppingCart className="h-5 w-5" />
-                Add to Cart
-              </button>
-              <WhatsAppLink product={product} />
+                Continue shopping
+              </Link>
             </div>
 
-            <ul className="mt-8 flex flex-wrap gap-6 border-t border-black/10 pt-6">
-              <li className="flex items-center gap-2 text-sm text-muted">
-                <Package className="h-5 w-5 shrink-0" aria-hidden />
-                Cash on Delivery Available
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted">
-                <RefreshCw className="h-5 w-5 shrink-0" aria-hidden />
-                7-Day Easy Exchange
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted">
-                <Zap className="h-5 w-5 shrink-0" aria-hidden />
-                Fast Shipping
-              </li>
-            </ul>
+            {/* Desktop: about below CTA */}
+            <div className="mt-10 hidden border-t border-black/10 pt-8 md:block">
+              <AboutVbayContent />
+            </div>
           </div>
         </div>
+
+        {/* Mobile: collapsible about (thumb-friendly CTA first in flow above via duplicate order — CTA shown again in column on small screens) */}
+        <div className="mt-8 flex flex-col gap-3 md:hidden">
+          <WhatsAppCta href={whatsappHref} />
+          <Link
+            href="/"
+            className="text-center text-sm font-medium text-muted underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Continue shopping
+          </Link>
+        </div>
+
+        <details className="group mt-8 rounded-xl border border-black/10 bg-white px-4 py-3 md:hidden">
+          <summary className="cursor-pointer list-none text-sm font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+            <span className="flex items-center justify-between gap-2">
+              About Vbay &amp; delivery
+              <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90" aria-hidden />
+            </span>
+          </summary>
+          <div className="mt-4 border-t border-black/5 pt-4">
+            <AboutVbayContent />
+          </div>
+        </details>
+      </article>
+
+      {/* Sticky WhatsApp only — mobile */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] backdrop-blur-sm md:hidden">
+        <WhatsAppCta href={whatsappHref} className="flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp py-3.5 text-base font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2" />
       </div>
 
-      {/* Sticky action bar on mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex gap-3 border-t border-black/10 bg-white p-4 md:hidden">
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-foreground bg-foreground px-4 py-3 font-semibold text-background"
-        >
-          <ShoppingCart className="h-5 w-5" />
-          Add to Cart
-        </button>
-        <WhatsAppLink product={product} />
-      </div>
+      <ImageLightbox
+        src={product.imageUrl}
+        alt={imageAlt}
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
     </>
   );
 }

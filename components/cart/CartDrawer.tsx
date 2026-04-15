@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { X, Minus, Plus, ShoppingBag, MessageCircle } from "lucide-react";
 import { useCart, type CartItem } from "@/store/useCart";
-
-const WHATSAPP_NUMBER = "923001234567"; // placeholder
+import { buildWhatsAppUrl, cartOrderMessage } from "@/lib/whatsapp";
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-PK", {
@@ -23,16 +22,14 @@ function OrderViaWhatsAppButton({
   subtotal: number;
   formatPrice: (price: number) => string;
 }) {
-  const lines = items.map(
+  const itemLines = items.map(
     (i) => `- ${i.quantity}x ${i.name} (Rs. ${formatPrice(i.salePrice)} each)`
   );
-  const message = [
-    "Hi Vbay! I'd like to order:",
-    ...lines,
-    `Subtotal: Rs. ${formatPrice(subtotal)}`,
-    "My Details: [Name], [City]",
-  ].join("\n");
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  const message = cartOrderMessage({
+    itemLines,
+    subtotalFormatted: formatPrice(subtotal),
+  });
+  const href = buildWhatsAppUrl(message);
 
   return (
     <a
