@@ -147,7 +147,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <>
-      <article className="mx-auto max-w-6xl px-4 pb-28 pt-2 sm:px-6 md:pb-14 md:pt-6">
+      <article className="mx-auto max-w-6xl px-4 pb-10 pt-2 sm:px-6 md:pb-14 md:pt-6">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 lg:items-start xl:gap-16">
           {/* Media — Shopify-like neutral stage, single image */}
           <button
@@ -220,11 +220,6 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         </details>
       </article>
-
-      {/* Sticky WhatsApp only — mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] backdrop-blur-sm md:hidden">
-        <WhatsAppCta href={whatsappHref} className="flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp py-3.5 text-base font-semibold text-white shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2" />
-      </div>
 
       <ImageLightbox
         src={product.imageUrl}
