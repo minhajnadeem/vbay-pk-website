@@ -17,6 +17,18 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
+    file: "iphone-16e-silicone-case-black.jpg",
+    name: "iphone 16 Silicone Case Black",
+  },
+  {
+    file: "iphone-16-pro-silicone-case-with-magsafe-black.jpg",
+    name: "iphone 16 Pro Silicone Case With Magsafe Black",
+  },
+  {
+    file: "iphone-16-pro-max-silicone-case-with-magsafe-black.jpg",
+    name: "iphone 16 Pro Max Silicone Case With Magsafe Black",
+  },
+  {
     file: "iphone-17-pro-promo.jpg",
     name: "iPhone 17 Pro",
   },
