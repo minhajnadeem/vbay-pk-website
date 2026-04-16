@@ -23,6 +23,14 @@ function Breadcrumbs() {
         <li className="flex items-center gap-1.5" aria-hidden>
           <ChevronRight className="h-4 w-4 shrink-0" />
         </li>
+        <li>
+          <Link href="/products" className="hover:text-foreground hover:underline">
+            Products
+          </Link>
+        </li>
+        <li className="flex items-center gap-1.5" aria-hidden>
+          <ChevronRight className="h-4 w-4 shrink-0" />
+        </li>
         <li className="font-medium text-foreground" aria-current="page">
           Details
         </li>
@@ -140,10 +148,10 @@ export function ProductDetail({ product }: { product: Product }) {
       : undefined;
 
   const whatsappHref = buildWhatsAppUrl(
-    productInquiryMessage(null, priceLine, productPageUrl || null)
+    productInquiryMessage(product.name, priceLine, productPageUrl || null)
   );
 
-  const imageAlt = "Product photo";
+  const imageAlt = `${product.name} product image`;
 
   return (
     <>
@@ -163,7 +171,6 @@ export function ProductDetail({ product }: { product: Product }) {
               className="object-contain p-6 sm:p-10 pointer-events-none"
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
-              unoptimized
             />
             {product.onSale && percentOff > 0 && (
               <span className="pointer-events-none absolute left-3 top-3 rounded-md bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
@@ -175,6 +182,10 @@ export function ProductDetail({ product }: { product: Product }) {
           {/* Buy box */}
           <div className="flex flex-col lg:max-w-xl lg:justify-start lg:py-1">
             <Breadcrumbs />
+
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {product.name}
+            </h1>
 
             <p className="mt-4 text-base text-muted">{VBAY_PDP_COPY.tagline}</p>
 

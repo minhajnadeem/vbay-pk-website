@@ -1,5 +1,7 @@
 import { Facebook, Instagram } from "lucide-react";
 
+export const DEFAULT_SITE_URL = "https://vbay.pk";
+
 /**
  * WhatsApp Business number for `wa.me` links (digits only, country code, no +).
  * Override with `NEXT_PUBLIC_WHATSAPP_E164` in `.env.local` if needed.
@@ -62,7 +64,8 @@ export function getPublicSiteBaseUrl(): string {
     typeof process !== "undefined"
       ? process.env.NEXT_PUBLIC_SITE_URL?.trim() ?? ""
       : "";
-  return raw.replace(/\/+$/, "");
+  const normalized = raw.replace(/\/+$/, "");
+  return normalized || DEFAULT_SITE_URL;
 }
 
 /** Absolute product page URL, or empty string if `NEXT_PUBLIC_SITE_URL` is not set (use `window.location.origin` on the client). */

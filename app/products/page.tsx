@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { PostLinkGrid } from "@/components/shared/PostLinkGrid";
 import { getPostProducts } from "@/lib/postProducts";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "All Products in Pakistan",
+  description:
+    "Explore all products available at Vbay.pk and order directly on WhatsApp anywhere in Pakistan.",
+  alternates: {
+    canonical: "/products",
+  },
+};
 
 export default async function ProductsPage() {
   const products = await getPostProducts();
@@ -9,7 +19,8 @@ export default async function ProductsPage() {
   const items = products.map((p) => ({
     href: `/product/${p.id}`,
     src: p.imageUrl,
-    alt: "Vbay product",
+    alt: `${p.name} product image`,
+    title: p.name,
   }));
 
   return (
@@ -18,10 +29,11 @@ export default async function ProductsPage() {
         <div>
           <p className="text-sm font-medium text-muted">All Products</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Browse the full collection
+            All products available for delivery in Pakistan
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted sm:text-base">
-            Explore all available items and open any product to order directly on WhatsApp.
+            Explore all available items and open any product to order directly on WhatsApp
+            with quick support and delivery across Pakistan.
           </p>
         </div>
         <p className="rounded-full bg-white px-4 py-2 text-sm text-muted shadow-sm ring-1 ring-black/5">

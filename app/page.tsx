@@ -42,7 +42,8 @@ export default async function Home() {
   const items = latestProducts.map((p) => ({
     href: `/product/${p.id}`,
     src: p.imageUrl,
-    alt: "Vbay post",
+    alt: `${p.name} product image`,
+    title: p.name,
   }));
 
   return (
@@ -54,7 +55,7 @@ export default async function Home() {
               Easy, quick and hassle-free shopping
             </span>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-              Shop trending products easily via WhatsApp
+              Buy trending products online in Pakistan via WhatsApp
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:text-lg">
               Quick, simple and hassle-free shopping across Pakistan. Browse products,

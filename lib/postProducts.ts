@@ -4,12 +4,85 @@ import type { Product } from "@/constants/mockData";
 
 const POSTS_DIR = path.join(process.cwd(), "public", "images", "posts");
 
+const TRAILING_SLUG_PARTS = new Set(["promo", "post", "image", "img", "banner"]);
+
+const TOKEN_REPLACEMENTS: Record<string, string> = {
+  iphone: "iPhone",
+  ipad: "iPad",
+  macbook: "MacBook",
+  samsung: "Samsung",
+  galaxy: "Galaxy",
+  nokia: "Nokia",
+  oppo: "OPPO",
+  vivo: "vivo",
+  xiaomi: "Xiaomi",
+  redmi: "Redmi",
+  infinix: "Infinix",
+  tecno: "Tecno",
+  usb: "USB",
+  c: "C",
+  lightning: "Lightning",
+  hd: "HD",
+  pro: "Pro",
+  max: "Max",
+  plus: "Plus",
+  ultra: "Ultra",
+};
+
+function formatSlugToken(token: string): string {
+  const normalized = token.trim();
+  if (!normalized) return "";
+
+  const lower = normalized.toLowerCase();
+  if (TOKEN_REPLACEMENTS[lower]) {
+    return TOKEN_REPLACEMENTS[lower];
+  }
+
+  if (/^[a-z]\d+[a-z]?$/i.test(normalized)) {
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1).toLowerCase();
+  }
+
+  if (/^\d+[a-z]+$/i.test(normalized)) {
+    return normalized.toUpperCase();
+  }
+
+  if (/^[a-z]+-?\d+[a-z-]*$/i.test(normalized) && /\d/.test(normalized)) {
+    return normalized.replace(/[a-z]+|\d+/gi, (part) =>
+      /^\d+$/.test(part)
+        ? part
+        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+    );
+  }
+
+  return normalized.charAt(0).toUpperCase() + normalized.slice(1).toLowerCase();
+}
+
 function toTitleCaseFromSlug(value: string): string {
-  return value
-    .replace(/[-_]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .replace(/\b\w/g, (ch) => ch.toUpperCase());
+  const parts = value
+    .split(/[-_]+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  while (parts.length > 1 && TRAILING_SLUG_PARTS.has(parts.at(-1)?.toLowerCase() ?? "")) {
+    parts.pop();
+  }
+
+  const formattedParts: string[] = [];
+
+  for (let index = 0; index < parts.length; index += 1) {
+    const current = parts[index];
+    const next = parts[index + 1];
+
+    if (current.toLowerCase() === "usb" && next?.toLowerCase() === "c") {
+      formattedParts.push("USB-C");
+      index += 1;
+      continue;
+    }
+
+    formattedParts.push(formatSlugToken(current));
+  }
+
+  return formattedParts.join(" ").trim();
 }
 
 function toPostIdFromBaseName(baseName: string): string {

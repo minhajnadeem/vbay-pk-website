@@ -6,6 +6,7 @@ import { CategoryBar } from "@/components/shared/CategoryBar";
 import { Footer } from "@/components/shared/Footer";
 import { StickyWhatsAppButton } from "@/components/shared/StickyWhatsAppButton";
 import { ClientProviders } from "@/components/providers/ClientProviders";
+import { DEFAULT_SITE_URL } from "@/constants/siteInfo";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -21,9 +22,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vbay.pk | Shop Trending Products via WhatsApp",
+  metadataBase: new URL(DEFAULT_SITE_URL),
+  title: {
+    default: "Buy Trending Products Online in Pakistan | Vbay.pk",
+    template: "%s | Vbay.pk",
+  },
   description:
-    "Quick, simple and hassle-free shopping across Pakistan. Browse trending products and order directly on WhatsApp.",
+    "Browse trending products at Vbay.pk and order directly on WhatsApp. Fast delivery across Pakistan, quick support, and a simple no-checkout buying experience.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Buy Trending Products Online in Pakistan | Vbay.pk",
+    description:
+      "Browse trending products at Vbay.pk and order directly on WhatsApp across Pakistan.",
+    url: DEFAULT_SITE_URL,
+    siteName: "Vbay.pk",
+    locale: "en_PK",
+    type: "website",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
