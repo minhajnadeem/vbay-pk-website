@@ -14,14 +14,14 @@ export const WHATSAPP_NUMBER_E164 =
 
 /** Generic copy for product detail “About Vbay” (edit in one place). */
 export const VBAY_PDP_COPY = {
-  tagline: "Premium picks delivered across Pakistan.",
+  tagline: "Easy, quick and hassle-free shopping across Pakistan.",
   aboutHeading: "Why shop with Vbay",
   aboutLead:
-    "Vbay.pk is a curated catalog focused on quality and easy ordering. Message us on WhatsApp for stock, sizes, or anything else—we’ll help you place your order quickly.",
+    "Vbay.pk is a curated catalog for trending and useful products with a simple WhatsApp-first ordering flow. Message us for stock, delivery details, or help placing your order quickly.",
   aboutBullets: [
-    "Cash on delivery available on supported orders",
-    "7-day easy exchange where applicable",
-    "Fast dispatch and careful packing",
+    "Easy WhatsApp ordering with quick support",
+    "Fast delivery across Pakistan",
+    "Helpful responses for stock, pricing, and order questions",
   ],
 } as const;
 

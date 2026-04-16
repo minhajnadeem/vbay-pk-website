@@ -5,7 +5,20 @@ export function Footer() {
   return (
     <footer className="mt-auto border-t border-black/10 bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-md">
+            <Link href="/" className="text-lg font-semibold tracking-tight text-foreground">
+              Vbay.pk
+            </Link>
+            <p className="mt-3 text-sm leading-6 text-muted">
+              Vbay is your go-to place for trending and useful products. We focus on
+              making shopping simple, fast, and hassle-free with direct WhatsApp ordering.
+            </p>
+            <p className="mt-3 text-sm text-muted">
+              Have a question? Message us anytime on WhatsApp.
+            </p>
+          </div>
+
           <div className="flex items-center gap-4">
             {SOCIAL_LINKS.map(({ href, icon: Icon, iconLabel }) => (
               <a
@@ -20,7 +33,8 @@ export function Footer() {
               </a>
             ))}
           </div>
-          <div className="text-center sm:text-right">
+
+          <div className="text-left lg:text-right">
             <p className="text-sm text-muted">
               Call:{" "}
               <a
@@ -39,9 +53,9 @@ export function Footer() {
               </a>
             </p>
             <p className="mt-2 text-sm text-muted">
-              Powered by{" "}
+              Easy, quick and hassle-free shopping across Pakistan with{" "}
               <Link href="/" className="font-medium text-foreground hover:underline">
-                Vbay
+                Vbay.pk
               </Link>
             </p>
           </div>

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { CONTACT_INFO, SOCIAL_LINKS, getEmailMailtoHref, getPhoneTelHref } from "@/constants/siteInfo";
 
@@ -23,19 +24,24 @@ export function Navbar() {
             </a>
           </div>
 
-          <div className="flex items-center gap-1">
-            {SOCIAL_LINKS.map(({ href, icon: Icon, iconLabel }) => (
-              <a
-                key={iconLabel}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full p-2 text-foreground transition hover:bg-black/5"
-                aria-label={iconLabel}
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
+          <div className="flex items-center gap-3">
+            <span className="font-medium text-foreground">
+              Easy, quick and hassle-free shopping
+            </span>
+            <div className="flex items-center gap-1">
+              {SOCIAL_LINKS.map(({ href, icon: Icon, iconLabel }) => (
+                <a
+                  key={iconLabel}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full p-2 text-foreground transition hover:bg-black/5"
+                  aria-label={iconLabel}
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -45,16 +51,23 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-2 text-black hover:opacity-80"
         >
-          <img
+          <Image
             src="/images/brand/logo_vbay.jpg"
             alt="Vbay.pk"
+            width={120}
+            height={32}
             className="h-8 w-auto"
+            priority
           />
           <span className="text-lg font-semibold tracking-tight">Vbay.pk</span>
         </Link>
 
-        {/* Intentionally hidden: search products UI and cart icon */}
-        <div className="flex items-center gap-3 sm:gap-5" aria-hidden />
+        <Link
+          href="/products"
+          className="inline-flex items-center justify-center rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition hover:opacity-90"
+        >
+          Browse Products
+        </Link>
       </nav>
     </header>
   );
