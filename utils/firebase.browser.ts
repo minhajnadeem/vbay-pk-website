@@ -22,7 +22,18 @@ const app =
 const db = getFirestore(app);
 
 async function registerMessagingServiceWorker() {
-  return navigator.serviceWorker.register("/firebase-messaging-sw.js");
+  const params = new URLSearchParams();
+  if (clientCredentials.apiKey) params.set("apiKey", clientCredentials.apiKey);
+  if (clientCredentials.authDomain) params.set("authDomain", clientCredentials.authDomain);
+  if (clientCredentials.projectId) params.set("projectId", clientCredentials.projectId);
+  if (clientCredentials.storageBucket) params.set("storageBucket", clientCredentials.storageBucket);
+  if (clientCredentials.messagingSenderId) {
+    params.set("messagingSenderId", clientCredentials.messagingSenderId);
+  }
+  if (clientCredentials.appId) params.set("appId", clientCredentials.appId);
+
+  const serviceWorkerUrl = `/firebase-messaging-sw.js?${params.toString()}`;
+  return navigator.serviceWorker.register(serviceWorkerUrl);
 }
 
 export type PushNotificationsInitResult =
