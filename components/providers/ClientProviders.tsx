@@ -29,7 +29,15 @@ export function ClientProviders() {
           }`}
         >
           <div className="flex items-start gap-3">
-            <div className="mt-0.5 shrink-0 rounded-full bg-black/5 p-2 text-sm">🔔</div>
+            <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-black/5 ring-1 ring-black/5">
+              <img
+                src="/images/brand/logo_vbay.jpg"
+                alt=""
+                className="h-full w-full object-cover"
+                width={40}
+                height={40}
+              />
+            </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold">{title}</p>
               <p className="mt-1 text-xs text-muted">{body}</p>
@@ -126,7 +134,17 @@ export function ClientProviders() {
       } else if (result.status === "unsupported") {
         toast.error("Push notifications are not supported in this browser");
       } else {
-        toast("Please allow notification permission to enable alerts", { icon: "🔔" });
+        toast("Please allow notification permission to enable alerts", {
+          icon: (
+            <img
+              src="/images/brand/logo_vbay.jpg"
+              alt=""
+              className="h-5 w-5 rounded object-cover"
+              width={20}
+              height={20}
+            />
+          ),
+        });
       }
     } catch (error) {
       console.warn("Push notifications could not be initialized:", error);
