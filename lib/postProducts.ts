@@ -17,16 +17,52 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
-    file: "iphone-16e-silicone-case-black.jpg",
-    name: "iphone 16 Silicone Case Black",
+    file: "iphone-17-pro-silicone-case-with-magsafe-purple-fog.jpg",
+    name: "iphone 17 Pro Silicone Case With Magsafe Purple Fog",
   },
   {
-    file: "iphone-16-pro-silicone-case-with-magsafe-black.jpg",
-    name: "iphone 16 Pro Silicone Case With Magsafe Black",
+    file: "iphone-17-pro-max-silicone-case-with-magsafe-bright-guava.jpg",
+    name: "iphone 17 Pro Max Silicone Case With Magsafe Bright Guava",
+  },
+  {
+    file: "iphone-17e-silicone-case-with-magsafe-soft-pink.jpg",
+    name: "iphone 17e Silicone Case With Magsafe Soft Pink",
+  },
+  {
+    file: "iphone-17-pro-max-silicone-case-with-magsafe-black.jpg",
+    name: "iphone 17 Pro Max Silicone Case With Magsafe Black",
+  },
+  {
+    file: "iphone-16-silicone-case-with-magsafe-ultramarine.jpg",
+    name: "iphone 16 Silicone Case With Magsafe Ultramarine",
+  },
+  {
+    file: "iphone-16-pro-silicone-case-with-magsafe-periwinkle.jpg",
+    name: "iphone 16 Pro Silicone Case With Magsafe Periwinkle",
+  },
+  {
+    file: "iphone-16-pro-max-silicone-case-with-magsafe-tangerine.jpg",
+    name: "iphone 16 Pro Max Silicone Case With Magsafe Tangerine",
   },
   {
     file: "iphone-16-pro-max-silicone-case-with-magsafe-black.jpg",
     name: "iphone 16 Pro Max Silicone Case With Magsafe Black",
+  },
+  {
+    file: "iphone-15-plus-silicone-case-with-magsafe-light-pink.jpg",
+    name: "iphone 15 Plus Silicone Case With Magsafe Light Pink",
+  },
+  {
+    file: "iphone-15-plus-silicone-case-with-magsafe-storm-blue.jpg",
+    name: "iphone 15 Plus Silicone Case With Magsafe Storm Blue",
+  },
+  {
+    file: "iphone-15-pro-max-silicone-case-with-magsafe-clay.jpg",
+    name: "iphone 15 Pro Max Silicone Case With Magsafe Clay",
+  },
+  {
+    file: "iphone-15-silicone-case-with-magsafe-black.jpg",
+    name: "iphone 15 Silicone Case With Magsafe Black",
   },
   {
     file: "iphone-17-pro-promo.jpg",
