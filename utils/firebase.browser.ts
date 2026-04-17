@@ -2,6 +2,7 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
   getMessaging,
+  getToken,
   isSupported,
   onMessage,
   type MessagePayload,
@@ -24,10 +25,18 @@ async function registerMessagingServiceWorker() {
   return navigator.serviceWorker.register("/firebase-messaging-sw.js");
 }
 
+export type PushNotificationsInitResult =
+  | { status: "granted"; fcmToken: string }
+  | { status: "unsupported" }
+  | { status: "permission_denied" }
+  | { status: "permission_default" }
+  | { status: "misconfigured"; reason: "missing_vapid_key" }
+  | { status: "token_error"; error: unknown };
+
 export async function initializePushNotifications(
   onForegroundMessage?: (payload: MessagePayload) => void,
   options?: { requestPermission?: boolean },
-) {
+): Promise<PushNotificationsInitResult> {
   if (typeof window === "undefined") {
     return { status: "unsupported" as const };
   }
@@ -47,18 +56,45 @@ export async function initializePushNotifications(
         : Notification.permission;
   if (permission !== "granted") {
     return {
-      status: permission === "denied" ? ("permission_denied" as const) : ("permission_default" as const),
+      status: permission === "denied" ? "permission_denied" : "permission_default",
     };
   }
 
-  await registerMessagingServiceWorker();
+  const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
+  if (!vapidKey) {
+    console.error(
+      "FCM: set NEXT_PUBLIC_FIREBASE_VAPID_KEY (Firebase Console → Project settings → Cloud Messaging → Web push certificates).",
+    );
+    return { status: "misconfigured", reason: "missing_vapid_key" };
+  }
+
+  const serviceWorkerRegistration = await registerMessagingServiceWorker();
   const messaging = getMessaging(app);
+
+  let fcmToken: string;
+  try {
+    fcmToken = await getToken(messaging, {
+      vapidKey,
+      serviceWorkerRegistration,
+    });
+  } catch (error) {
+    console.error("FCM getToken failed:", error);
+    return { status: "token_error", error };
+  }
+
+  if (!fcmToken) {
+    return { status: "token_error", error: new Error("Empty FCM token") };
+  }
 
   if (onForegroundMessage) {
     onMessage(messaging, onForegroundMessage);
   }
 
-  return { status: "granted" as const };
+  if (process.env.NODE_ENV === "development") {
+    console.info("FCM device token (paste into Firebase Console → Send test message):", fcmToken);
+  }
+
+  return { status: "granted", fcmToken };
 }
 
 export {

@@ -72,6 +72,14 @@ export function ClientProviders() {
     if (Notification.permission === "granted") {
       initializePushNotifications(onForegroundMessage, { requestPermission: false })
         .then((result) => {
+          if (result.status === "misconfigured") {
+            console.warn("Push notifications: add NEXT_PUBLIC_FIREBASE_VAPID_KEY to enable FCM.");
+            return;
+          }
+          if (result.status === "token_error") {
+            console.warn("Push notifications: could not obtain FCM token.", result.error);
+            return;
+          }
           if (result.status !== "granted") {
             console.warn("Push notifications init status:", result.status);
           }
@@ -97,6 +105,19 @@ export function ClientProviders() {
       if (result.status === "granted") {
         toast.success("Notifications enabled");
         setShowEnableNotifications(false);
+        if (process.env.NODE_ENV === "development") {
+          console.info("FCM token:", result.fcmToken);
+        }
+        return;
+      }
+
+      if (result.status === "misconfigured") {
+        toast.error("Push is not configured (missing web push key).");
+        return;
+      }
+
+      if (result.status === "token_error") {
+        toast.error("Could not register for push notifications");
         return;
       }
 
