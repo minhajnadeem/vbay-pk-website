@@ -17,6 +17,50 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
+    file: "latest_iphone_lineup.jpeg",
+    name: "Latest iPhone Lineup",
+  },
+  {
+    file: "iphone_13.jpeg",
+    name: "iPhone 13",
+  },
+  {
+    file: "iphone_17.jpeg",
+    name: "iPhone 17",
+  },
+  {
+    file: "airpod_pro.jpeg",
+    name: "AirPods Pro",
+  },
+  {
+    file: "apple_watch_series_11.jpeg",
+    name: "Apple Watch Series 11",
+  },
+  {
+    file: "ipad_pro.jpeg",
+    name: "iPad Pro",
+  },
+  {
+    file: "macbook_neo.jpeg",
+    name: "MacBook Neo",
+  },
+  {
+    file: "macbook_pro.jpeg",
+    name: "MacBook Pro",
+  },
+  {
+    file: "buy_laptop_from_vbay.jpeg",
+    name: "Buy Laptop From Vbay",
+  },
+   {
+    file: "apple_vision_pro.jpeg",
+    name: "Apple Vision Pro",
+  },
+  {
+    file: "iphone-17-pro-max-clear-case-with-magsafe.jpg",
+    name: "iphone 17 Pro Clear Silicone Case With Magsafe",
+  },
+  {
     file: "iphone-17-pro-silicone-case-with-magsafe-purple-fog.jpg",
     name: "iphone 17 Pro Silicone Case With Magsafe Purple Fog",
   },
@@ -77,48 +121,28 @@ const POST_PRODUCT_LIST = [
     name: "iPhone 16 Pro Max",
   },
   {
-    file: "iphone-12.jpg",
-    name: "iPhone 12",
-  },
-  {
     file: "iphone-12-best-price-promo.jpg",
     name: "iPhone 12 Promo",
   },
   {
-    file: "iphone-13.jpeg",
-    name: "iPhone 13",
+    file: "iphone_cables.jpeg",
+    name: "iPhone Cables",
   },
   {
-    file: "iphone-13-accessories.jpeg",
-    name: "iPhone 13 Accessories",
+    file: "power_adapter.jpeg",
+    name: "Power Adapter",
   },
   {
-    file: "iphone-13-clear-case.jpeg",
-    name: "iPhone 13 Clear Case",
+    file: "mini_handheld_fan.jpeg",
+    name: "Mini Handheld Fan",
   },
   {
-    file: "iphone-13-privacy-glass.jpeg",
-    name: "iPhone 13 Privacy Glass",
-  },
-  {
-    file: "iphone-13-screen-protector.jpeg",
-    name: "iPhone 13 Screen Protector",
-  },
-  {
-    file: "usb-c-to-lightning-cable.jpeg",
-    name: "USB-C to Lightning Cable",
-  },
-  {
-    file: "airpods-pro-2.jpeg",
-    name: "AirPods Pro 2",
+    file: "hmd_barbie_phone.jpeg",
+    name: "HMD Barbie Phone",
   },
   {
     file: "hmd-barbie-phone-promo.jpg",
     name: "HMD Barbie Phone",
-  },
-  {
-    file: "hmd-barbie-phone.jpg",
-    name: "HMD Barbie Phone Box",
   },
   {
     file: "samsung-galaxy-a05s-promo.jpg",
