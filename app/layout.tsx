@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(DEFAULT_SITE_URL),
   title: {
-    default: "Buy Trending Products Online in Pakistan | Vbay.pk",
+    default: "Easy, quick and hassle-free shopping | Vbay.pk",
     template: "%s | Vbay.pk",
   },
   description:
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Buy Trending Products Online in Pakistan | Vbay.pk",
+    title: "Easy, quick and hassle-free shopping | Vbay.pk",
     description:
       "Browse trending products at Vbay.pk and order directly on WhatsApp across Pakistan.",
     url: DEFAULT_SITE_URL,
