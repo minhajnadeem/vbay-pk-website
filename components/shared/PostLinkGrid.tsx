@@ -29,9 +29,6 @@ export function PostLinkGrid({ items }: { items: PostLinkItem[] }) {
               className="aspect-square h-full w-full object-cover transition duration-300 group-hover:scale-105"
               priority={idx < 2}
             />
-            <span className="pointer-events-none absolute bottom-3 right-3 rounded-full border border-white/35 bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur transition group-hover:bg-black/70">
-              See details
-            </span>
           </div>
           <div className="border-t border-neutral-100 px-4 py-3">
             <p className="line-clamp-2 text-sm font-medium text-foreground">{item.title}</p>
