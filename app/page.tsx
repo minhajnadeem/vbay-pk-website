@@ -48,7 +48,7 @@ export default async function Home() {
 
   return (
     <div className="bg-neutral-50">
-      <section className="border-b border-black/10 bg-white">
+      <section className="bg-white">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:px-8 lg:py-20">
           <div className="max-w-2xl">
             <span className="inline-flex rounded-full bg-black/5 px-3 py-1 text-xs font-semibold tracking-wide text-foreground uppercase">

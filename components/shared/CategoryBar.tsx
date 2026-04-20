@@ -13,10 +13,7 @@ export function CategoryBar() {
   const isHome = pathname === "/";
 
   return (
-    <nav
-      className="border-b border-black/10 bg-white"
-      aria-label="Categories"
-    >
+    <nav className="bg-white" aria-label="Categories">
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-3 sm:px-6">
         {CATEGORIES.map((cat) => {
           const isActive =
