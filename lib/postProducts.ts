@@ -16,45 +16,57 @@ function parsePostId(id: string): string | null {
 }
 
 const POST_PRODUCT_LIST = [
-  {
-    file: "latest_iphone_lineup.jpeg",
-    name: "Latest iPhone Lineup",
-  },
-  {
-    file: "iphone_13.jpeg",
-    name: "iPhone 13",
-  },
-  {
-    file: "iphone_17.jpeg",
-    name: "iPhone 17",
-  },
-  {
-    file: "airpod_pro.jpeg",
+   {
+    file: "airpod_pro.png",
     name: "AirPods Pro",
   },
   {
-    file: "apple_watch_series_11.jpeg",
+    file: "mini_handheld_fan.png",
+    name: "Mini Handheld Fan",
+  },
+    {
+    file: "iphone_cables.png",
+    name: "iPhone Cables",
+  },
+  {
+    file: "hmd_barbie_phone.png",
+    name: "HMD Barbie Phone",
+  },
+  {
+    file: "macbook_pro.png",
+    name: "MacBook Pro",
+  },
+  {
+    file: "ipad_pro.png",
+    name: "iPad Pro",
+  },
+   {
+    file: "iphone_13.png",
+    name: "iPhone 13",
+  },
+  {
+    file: "apple_vision_pro.png",
+    name: "Apple Vision Pro",
+  },
+  {
+    file: "iphone_17.png",
+    name: "iPhone 17",
+  },
+  {
+    file: "apple_watch_series_11.png",
     name: "Apple Watch Series 11",
   },
   {
-    file: "ipad_pro.jpeg",
-    name: "iPad Pro",
+    file: "latest_iphone_lineup.png",
+    name: "Latest iPhone Lineup",
   },
   {
-    file: "macbook_neo.jpeg",
+    file: "macbook_neo.png",
     name: "MacBook Neo",
-  },
-  {
-    file: "macbook_pro.jpeg",
-    name: "MacBook Pro",
   },
   {
     file: "buy_laptop_from_vbay.jpeg",
     name: "Buy Laptop From Vbay",
-  },
-   {
-    file: "apple_vision_pro.jpeg",
-    name: "Apple Vision Pro",
   },
   {
     file: "iphone-17-pro-max-clear-case-with-magsafe.jpg",
@@ -121,28 +133,8 @@ const POST_PRODUCT_LIST = [
     name: "iPhone 16 Pro Max",
   },
   {
-    file: "iphone-12-best-price-promo.jpg",
-    name: "iPhone 12 Promo",
-  },
-  {
-    file: "iphone_cables.jpeg",
-    name: "iPhone Cables",
-  },
-  {
     file: "power_adapter.jpeg",
     name: "Power Adapter",
-  },
-  {
-    file: "mini_handheld_fan.jpeg",
-    name: "Mini Handheld Fan",
-  },
-  {
-    file: "hmd_barbie_phone.jpeg",
-    name: "HMD Barbie Phone",
-  },
-  {
-    file: "hmd-barbie-phone-promo.jpg",
-    name: "HMD Barbie Phone",
   },
   {
     file: "samsung-galaxy-a05s-promo.jpg",
