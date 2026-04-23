@@ -16,7 +16,15 @@ function parsePostId(id: string): string | null {
 }
 
 const POST_PRODUCT_LIST = [
-   {
+  {
+    file: "iphone_14.jpeg",
+    name: "iPhone 14",
+  },
+  {
+    file: "power_adapter.jpeg",
+    name: "Power Adapter",
+  },
+  {
     file: "airpod_pro.png",
     name: "AirPods Pro",
   },
@@ -133,8 +141,8 @@ const POST_PRODUCT_LIST = [
     name: "iPhone 16 Pro Max",
   },
   {
-    file: "power_adapter.jpeg",
-    name: "Power Adapter",
+    file: "display_adapter.jpeg",
+    name: "Display Adapter",
   },
   {
     file: "samsung-galaxy-a05s-promo.jpg",
