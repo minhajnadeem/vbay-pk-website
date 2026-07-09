@@ -25,6 +25,10 @@ const POST_PRODUCT_LIST = [
     name: "Whoop Life",
   },
   {
+    file: "ranger2imou.jpeg",
+    name: "Ranger 2 IMOU",
+  },
+  {
     file: "iphone_14.jpeg",
     name: "iPhone 14",
   },
