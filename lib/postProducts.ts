@@ -17,6 +17,14 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
+    file: "whooppeak.jpeg",
+    name: "Whoop Peak",
+  },
+  {
+    file: "whooplife.jpeg",
+    name: "Whoop Life",
+  },
+  {
     file: "iphone_14.jpeg",
     name: "iPhone 14",
   },
