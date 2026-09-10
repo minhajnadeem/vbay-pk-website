@@ -17,6 +17,30 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
+    file: "apple-ecosystem-lineup-dark-promo.jpg",
+    name: "Apple Ecosystem Lineup Dark",
+  },
+  {
+    file: "iphone-duo-promo.jpg",
+    name: "iPhone Duo",
+  },
+  {
+    file: "iphone-18-pro-burgundy-promo.jpg",
+    name: "iPhone 18 Pro Burgundy",
+  },
+  {
+    file: "iphone-18-pro-silver-blue-promo.jpg",
+    name: "iPhone 18 Pro Silver Blue",
+  },
+  {
+    file: "iphone-18-pro-natural-titanium-promo.jpg",
+    name: "iPhone 18 Pro Natural Titanium",
+  },
+  {
+    file: "iphone-18-pro-black-promo.jpg",
+    name: "iPhone 18 Pro Black",
+  },
+  {
     file: "whooppeak.jpeg",
     name: "Whoop Peak",
   },
