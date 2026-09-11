@@ -17,6 +17,10 @@ function parsePostId(id: string): string | null {
 
 const POST_PRODUCT_LIST = [
   {
+    file: "iphone-18-pro-max-burgundy-promo.jpg",
+    name: "iPhone 18 Pro Max Burgundy",
+  },
+  {
     file: "iphone-18-pro-max-black-promo.jpg",
     name: "iPhone 18 Pro Max Black",
   },
@@ -25,20 +29,28 @@ const POST_PRODUCT_LIST = [
     name: "iPhone 18 Pro Max Blue",
   },
   {
-    file: "iphone-18-pro-max-burgundy-promo.jpg",
-    name: "iPhone 18 Pro Max Burgundy",
+    file: "iphone-18-pro-burgundy-promo.jpg",
+    name: "iPhone 18 Pro Burgundy",
   },
   {
-    file: "iphone-18-cases-protection-promo.jpg",
-    name: "iPhone 18 Cases & Protection",
+    file: "iphone-18-pro-silver-blue-promo.jpg",
+    name: "iPhone 18 Pro Silver Blue",
+  },
+  {
+    file: "iphone-18-pro-black-promo.jpg",
+    name: "iPhone 18 Pro Black",
+  },
+  {
+    file: "iphone-duo-promo.jpg",
+    name: "iPhone Duo",
   },
   {
     file: "apple-ecosystem-lineup-dark-promo.jpg",
     name: "Apple Ecosystem Lineup Dark",
   },
   {
-    file: "iphone-duo-promo.jpg",
-    name: "iPhone Duo",
+    file: "iphone-18-cases-protection-promo.jpg",
+    name: "iPhone 18 Cases & Protection",
   },
   {
     file: "whooppeak.jpeg",
